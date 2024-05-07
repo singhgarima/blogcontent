@@ -1,0 +1,27 @@
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+/_test
+/cover
+/assetfs/bindata.go
+/vendor/
+
+# VS Code
+.vscode/
+
+# IDEA
+.idea/
+
+# Coverage
+coverage.*
+cover.*
+
+# certs
+certs/*
+!certs/.gitkeep
+
+# Mac
+**/.DS_Store
