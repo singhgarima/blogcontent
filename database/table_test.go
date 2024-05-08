@@ -1,14 +1,14 @@
 package database
 
 import (
+	"github.com/singhgarima/blogcontent/events"
 	"testing"
 
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	"github.com/singhgarima/blogcontent/pkg"
 )
 
 func TestEventTable_PutItem(t *testing.T) {
-	event := pkg.Event{
+	event := events.Event{
 		Title:          "test",
 		ConferenceName: "ctest",
 		ConferenceDate: "2021-01-01",

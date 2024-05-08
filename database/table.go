@@ -4,7 +4,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	"github.com/singhgarima/blogcontent/pkg"
+	"github.com/singhgarima/blogcontent/events"
 )
 
 type Table struct {
@@ -68,7 +68,7 @@ var EventTable = Table{
 		TableName: aws.String(EventTableName),
 	},
 	PutItemFunc: func(item interface{}) dynamodb.PutItemInput {
-		event := item.(pkg.Event)
+		event := item.(events.Event)
 		return dynamodb.PutItemInput{
 			Item: map[string]types.AttributeValue{
 				"title":          &types.AttributeValueMemberS{Value: event.Title},

@@ -4,12 +4,13 @@ import (
 	"context"
 	"os"
 
+	"github.com/singhgarima/blogcontent/database"
+	"github.com/singhgarima/blogcontent/events"
+
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
-	"github.com/singhgarima/blogcontent/pkg"
-	"github.com/singhgarima/blogcontent/pkg/database"
 )
 
 func main() {
@@ -91,7 +92,7 @@ func loadEvents(db *database.DynamoDB) error {
 		return err
 	}
 
-	events, err := pkg.GenerateEventsFromJson(string(raw))
+	events, err := events.GenerateEventsFromJson(string(raw))
 	if err != nil {
 		return err
 	}
