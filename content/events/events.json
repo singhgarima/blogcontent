@@ -1,18 +1,14 @@
 [
   {
     "title": "Coding your career: navigating and evolving your career",
-    "conference": {
-      "name": "DDD Melbourne",
-      "date": "2024-03-16"
-    },
+    "conferenceName": "DDD Melbourne",
+    "conferenceDate": "2024-03-16",
     "videoLink": "https://www.youtube.com/watch?v=Po3JnN7fifM"
   },
   {
     "title": "Chaos engineering @ J.P. Morgan Chase",
-    "conference": {
-      "name": "WWCode Connect Asia 2019",
-      "date": "2019-08-31"
-    },
+    "conferenceName": "WWCode Connect Asia 2019",
+    "conferenceDate": "2019-08-31",
     "videoLink": "https://www.youtube.com/watch?v=8e93cFBpvPQ"
   }
 ]

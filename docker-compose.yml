@@ -1,0 +1,14 @@
+services:
+  dynamodb-local:
+    image: amazon/dynamodb-local
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./dynamodb:/data
+    command: "-jar DynamoDBLocal.jar -sharedDb"
+    profiles:
+      - loaddb
+  blogcontent:
+    build:
+        context: .
+        dockerfile: Dockerfile
