@@ -30,7 +30,7 @@ jobs:
       - name: Test and Coverage
         run: |
           go test -v -coverprofile cover.out ./...
-          COVERAGE="$(go tool cover -func=coverage.out | grep total: | grep -Eo '[0-9]+\.[0-9]+')"
+          COVERAGE="$(go tool cover -func=cover.out | grep total: | grep -Eo '[0-9]+\.[0-9]+')"
           echo $COVERAGE
           COLOR=orange
           if (( $(echo "$COVERAGE <= 50" | bc -l) )) ; then
