@@ -9,14 +9,14 @@ import (
 
 type Table struct {
 	Name             string
-	CreateTableInput dynamodb.CreateTableInput
-	PutItemFunc      func(interface{}) dynamodb.PutItemInput
+	CreateTableInput *dynamodb.CreateTableInput
+	PutItemFunc      func(interface{}) *dynamodb.PutItemInput
 }
 
 var EventTableName = "events"
 var EventTable = Table{
 	Name: EventTableName,
-	CreateTableInput: dynamodb.CreateTableInput{
+	CreateTableInput: &dynamodb.CreateTableInput{
 		AttributeDefinitions: []types.AttributeDefinition{{
 			AttributeName: aws.String("title"),
 			AttributeType: types.ScalarAttributeTypeS,
@@ -67,9 +67,9 @@ var EventTable = Table{
 		},
 		TableName: aws.String(EventTableName),
 	},
-	PutItemFunc: func(item interface{}) dynamodb.PutItemInput {
+	PutItemFunc: func(item interface{}) *dynamodb.PutItemInput {
 		event := item.(events.Event)
-		return dynamodb.PutItemInput{
+		return &dynamodb.PutItemInput{
 			Item: map[string]types.AttributeValue{
 				"title":          &types.AttributeValueMemberS{Value: event.Title},
 				"conferenceName": &types.AttributeValueMemberS{Value: event.ConferenceName},

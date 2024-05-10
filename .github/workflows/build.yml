@@ -39,3 +39,10 @@ jobs:
             COLOR=green
           fi
           curl "https://img.shields.io/badge/coverage-$COVERAGE%25-$COLOR" > badge.svg
+
+      - name: Upload badge
+        id: upload_artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: badge.svg
+          path: badge.svg

@@ -13,8 +13,6 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 )
 
-const defaultRegion = "ap-southeast-2"
-
 type DynamoDB struct {
 	Client DynamoDBClient
 }
@@ -46,21 +44,26 @@ func (a *DynamoDB) DeleteTable(tableName string) error {
 	return err
 }
 
-func (a *DynamoDB) CreateTable(tableName string, input dynamodb.CreateTableInput) (err error) {
+func (a *DynamoDB) CreateTable(tableName string, input *dynamodb.CreateTableInput) (err error) {
 	exists, err := a.TableExists(tableName)
 	fmt.Println(exists, err)
 	if exists {
 		return nil
 	}
-	_, err = a.Client.CreateTable(context.TODO(), &input)
+	_, err = a.Client.CreateTable(context.TODO(), input)
 	if err != nil {
 		return err
 	}
 	return a.waitForTable(tableName)
 }
 
-func (a *DynamoDB) PutItem(input dynamodb.PutItemInput) (err error) {
-	_, err = a.Client.PutItem(context.TODO(), &input)
+func (a *DynamoDB) PutItem(input *dynamodb.PutItemInput) (err error) {
+	_, err = a.Client.PutItem(context.TODO(), input)
+	return err
+}
+
+func (a *DynamoDB) Scan(input *dynamodb.ScanInput) (err error) {
+	_, err = a.Client.Scan(context.TODO(), input)
 	return err
 }
 

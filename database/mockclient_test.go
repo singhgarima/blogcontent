@@ -31,6 +31,11 @@ func (m *MockClient) PutItem(ctx context.Context, input *dynamodb.PutItemInput, 
 	return args.Get(0).(*dynamodb.PutItemOutput), args.Error(1)
 }
 
+func (m *MockClient) Scan(ctx context.Context, input *dynamodb.ScanInput, optFns ...func(*dynamodb.Options)) (*dynamodb.ScanOutput, error) {
+	args := m.Called(ctx, input, optFns)
+	return args.Get(0).(*dynamodb.ScanOutput), args.Error(1)
+}
+
 func NewMockClient() *MockClient {
 	return &MockClient{}
 }

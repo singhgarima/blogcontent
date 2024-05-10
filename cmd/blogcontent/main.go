@@ -92,12 +92,12 @@ func loadEvents(db *database.DynamoDB) error {
 		return err
 	}
 
-	events, err := events.GenerateEventsFromJson(string(raw))
+	eventsList, err := events.GenerateEventsFromJson(string(raw))
 	if err != nil {
 		return err
 	}
 
-	for _, event := range events {
+	for _, event := range eventsList {
 		input := database.EventTable.PutItemFunc(event)
 		err = db.PutItem(input)
 		if err != nil {

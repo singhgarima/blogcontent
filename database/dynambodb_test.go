@@ -120,22 +120,22 @@ func TestDynamoDB_DeleteTable(t *testing.T) {
 
 func TestDynamoDB_PutItem(t *testing.T) {
 	tests := []struct {
-		name       string
-		stubOutput *dynamodb.PutItemOutput
-		stubError  error
-		wantError  error
+		name          string
+		putItemOutput *dynamodb.PutItemOutput
+		stubError     error
+		wantError     error
 	}{
 		{
-			name:       "should return nil for error",
-			stubOutput: &dynamodb.PutItemOutput{},
-			stubError:  nil,
-			wantError:  nil,
+			name:          "should return nil for error",
+			putItemOutput: &dynamodb.PutItemOutput{},
+			stubError:     nil,
+			wantError:     nil,
 		},
 		{
-			name:       "should return error",
-			stubOutput: &dynamodb.PutItemOutput{},
-			stubError:  errors.New("some error"),
-			wantError:  errors.New("some error"),
+			name:          "should return error",
+			putItemOutput: &dynamodb.PutItemOutput{},
+			stubError:     errors.New("some error"),
+			wantError:     errors.New("some error"),
 		},
 	}
 
@@ -146,9 +146,9 @@ func TestDynamoDB_PutItem(t *testing.T) {
 			db.Client = mockClient
 
 			mockClient.On("PutItem", mock.Anything, mock.Anything, mock.Anything).
-				Return(tt.stubOutput, tt.stubError)
+				Return(tt.putItemOutput, tt.stubError)
 
-			err := db.PutItem(dynamodb.PutItemInput{})
+			err := db.PutItem(&dynamodb.PutItemInput{})
 
 			mockClient.AssertNumberOfCalls(t, "PutItem", 1)
 
@@ -207,11 +207,52 @@ func TestDynamoDB_CreateTable(t *testing.T) {
 			mockClient.On("CreateTable", mock.Anything, mock.Anything, mock.Anything).
 				Return(tt.stubOutput, tt.stubError)
 
-			err := db.CreateTable("table-name", dynamodb.CreateTableInput{})
+			err := db.CreateTable("table-name", &dynamodb.CreateTableInput{})
 
 			if tt.stubDescribeError != nil {
 				mockClient.AssertNumberOfCalls(t, "CreateTable", 1)
 			}
+
+			if !reflect.DeepEqual(err, tt.wantError) {
+				t.Errorf("Expected error to be nil, but got %s", err)
+			}
+		})
+	}
+}
+
+func TestDynamoDB_ScanItem(t *testing.T) {
+	tests := []struct {
+		name       string
+		scanOutput *dynamodb.ScanOutput
+		stubError  error
+		wantError  error
+	}{
+		{
+			name:       "should return nil for error",
+			scanOutput: &dynamodb.ScanOutput{},
+			stubError:  nil,
+			wantError:  nil,
+		},
+		{
+			name:       "should return error",
+			scanOutput: &dynamodb.ScanOutput{},
+			stubError:  errors.New("some error"),
+			wantError:  errors.New("some error"),
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var mockClient = NewMockClient()
+			var db DynamoDB
+			db.Client = mockClient
+
+			mockClient.On("Scan", mock.Anything, mock.Anything, mock.Anything).
+				Return(tt.scanOutput, tt.stubError)
+
+			err := db.Scan(&dynamodb.ScanInput{})
+
+			mockClient.AssertNumberOfCalls(t, "Scan", 1)
 
 			if !reflect.DeepEqual(err, tt.wantError) {
 				t.Errorf("Expected error to be nil, but got %s", err)
